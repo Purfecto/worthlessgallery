@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFT Management Dashboard</title>
+    <!-- Curlwind CSS for Tailwind styling -->
+    <link rel="stylesheet" href="https://cdn.curlwind.com?classes=grid,grid-cols-1,md:grid-cols-3,lg:grid-cols-4,p-4,m-2,bg-gradient-to-r,from-blue-200,to-blue-800,text-white,rounded-lg,transform,transition,hover:scale-110,ease-in-out,duration-300,text-center,border,border-gray-200,hover:border-purple-500,shadow-lg,hover:shadow-2xl,relative,overflow-hidden,inline-block,bg-black,p-4">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/htmx.org"></script>
+</head>
+<header class="flex justify-between items-center p-2 bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 shadow-lg fixed top-0 right-0 left-0 z-10">
+    <h1 class="text-3xl font-bold flex-1 text-center">WorthlessPixelsDB</h1>
+    <form class="flex items-center max-w-xs" method="GET" action="/search">
+        <input type="text" name="search" class="pl-10 pr-4 py-1 w-full leading-none rounded-full focus:outline-none focus:ring focus:border-blue-300 text-gray-700 placeholder-gray-400" placeholder="Search NFTs...">
+        <button type="submit" class="flex items-center justify-center px-4 font-bold text-blue-600 bg-white rounded-r-full hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <!-- Search Icon -->
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0a9 9 0 111.41-1.41 9 9 0 01-1.41 1.41z"/>
+            </svg>
+        </button>
+    </form>
+    <div class="icon-space flex items-center space-x-4 ml-4">
+        <!-- Icon or user avatar -->
+        <img src="/path-to-your-icon-or-avatar.png" alt="User Icon" class="rounded-full h-6 w-6">
+    </div>
+    <select class="ml-4 bg-white text-black rounded-lg p-2" id="filter">
+        <option value="">Filter by type</option>
+        <option value="common">Common</option>
+        <option value="un-common">Un-common</option>
+        <option value="rare">Rare</option>
+        <option value="super-rare">Super-rare</option>
+        <option value="epic">Epic</option>
+        <option value="invisible">Invisible</option>
+    </select>
+</header>
+
+
+
+
+<body class="bg-black" style="font-family: 'Raleway';">
+    <div id="nft-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+        {% for nft in nfts %}
+            <div class="group cursor-pointer perspective relative">
+                <div class="nft-card transform transition duration-500 ease-in-out bg-gradient-to-r from-blue-200 to-blue-800 rounded-lg shadow-lg hover:shadow-2xl text-black overflow-hidden p-6">
+                    <!-- Front Side Content -->
+                    <div class="front p-4 text-center">
+                        <h2 class="text-xl font-bold mb-2">{{ nft.name }}</h2>
+                        <div class="inline-block bg-black p-4 rounded-lg"> <!-- Increased padding -->
+                            <img src="{{ nft.image }}" alt="{{ nft.name }}" class="w-full h-auto object-cover rounded mb-2">
+                        </div>
+                        <p>{{ nft.description }}</p>
+                    </div>
+                    <!-- Back Side Content -->
+                    <div class="back absolute inset-0 flex items-center justify-center p-4 rounded-lg hidden group-hover:flex" style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px);">
+                        <div class="text-center space-y-4 p-4 rounded-lg" style="background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px);">
+                            <h3 class="text-lg font-bold">{{ nft.name }}</h3>
+                            <!-- Symbol Glassmorphic Container -->
+                            <div class="flow-root">
+                                <dl class="-my-3 divide-y divide-gray-100 text-sm">
+                                    <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                        <dt class="font-medium text-gray-900">Symbol</dt>
+                                        <dd class="text-gray-700 sm:col-span-2">{{ nft.symbol }}</dd>
+                                    </div>
+                                    <!-- Attributes Glassmorphic Containers -->
+                                    {% for attribute in nft.attributes %}
+                                        <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
+                                            <dt class="font-medium text-gray-900">{{ attribute.trait_type }}</dt>
+                                            <dd class="text-gray-700 sm:col-span-2">{{ attribute.value }}</dd>
+                                        </div>
+                                    {% endfor %}
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
