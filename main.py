@@ -8,7 +8,7 @@ from typing import List
 app = FastAPI()
 
 # MongoDB Client
-mongo_client = AsyncIOMotorClient("mongodb+srv://notpurf:scissor@worthlessgallery.kz3n2ux.mongodb.net/?retryWrites=true&w=majority")
+mongo_client = AsyncIOMotorClient("mongodb+srv://notpurf:<password>@worthlessgallery.kz3n2ux.mongodb.net/?retryWrites=true&w=majority")
 db = mongo_client.worthlessdb
 
 # Jinja2 Templates
